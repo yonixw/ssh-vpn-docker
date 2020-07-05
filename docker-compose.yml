@@ -2,16 +2,18 @@ version: '3'
 services:
   vpn:
     build: .
-    tty: true
     sysctls:
         - "net.ipv6.conf.all.disable_ipv6=0"
     cap_add:
         - NET_ADMIN 
     devices:
         - /dev/net/tun
+    ports: # Same as inside port in ENV.SSH_PORTS
+      - 8888
     environment: 
-      - "WAIT_VPN=5"
-      - "SSH_ARGS=-i vm_ssh.pem ubuntu@10.0.1.119"
+      WAIT_VPN: 5
+      SSH_PORTS: "8888:7777 9999:1234" #<port inside docker>:<vpn vm port>
+      SSH_ARGS: "-i vm_ssh.pem ubuntu@10.0.1.119" # No ports
     volumes:
       - ./vpn_config.ovpn:/vpn/config/vpn_config.ovpn # OpenVPN config
       - ./vpn_client.key:/vpn/config/vpn_client.key   # OpenVPN private key (if apply)
