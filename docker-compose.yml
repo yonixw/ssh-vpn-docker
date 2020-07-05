@@ -9,10 +9,10 @@ services:
     devices:
         - /dev/net/tun
     ports: # Same as inside port in ENV.SSH_PORTS
-      - 8888
+      - 3002:3002
     environment: 
       WAIT_VPN: 5
-      SSH_PORTS: "8888:7777 9999:1234" #<port inside docker>:<vpn vm port>
+      SSH_PORTS: "3002:3001 9999:1234" #<port inside docker>:<vpn vm port>
       SSH_ARGS: "-i vm_ssh.pem ubuntu@10.0.1.119" # No ports
     volumes:
       - ./vpn_config.ovpn:/vpn/config/vpn_config.ovpn # OpenVPN config

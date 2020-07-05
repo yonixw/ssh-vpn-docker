@@ -13,6 +13,7 @@ It supports tcp port forwarding.
     2. Change your `ovpn` file to search keys\certs in `/vpn/config`
     3. Mount all needed files to `/vpn/config/` (see example `docker-compose.yml`)
     4. Choose ports in both SSH_PORTS and yaml ports
+        * Local Port must be different from target port
 3. Start the docker (will not connect to VPN yet)
 4. Exec in docker `bash -c "./ssh.sh"`
 
