@@ -19,8 +19,13 @@ It supports tcp port forwarding.
 
 ## Get to the point 😡
 Configure `docker-compose.yml` and run:
+* If using built image:
 ```
-docker-compose up -d --build --force-recreate vpn && docker-compose exec vpn bash -c "./ssh.sh"
+docker-compose run --rm vpn bash -c "chmod +x ssh.sh && ./ssh.sh"
+```
+* Or if using local Dockerfile:
+```
+docker-compose up -d  --force-recreate vpn && docker-compose exec vpn bash -c "chmod +x ssh.sh && ./ssh.sh"
 ```
 
 ## Why so many docker permissions?
