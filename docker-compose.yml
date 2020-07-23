@@ -8,12 +8,13 @@ services:
         - NET_ADMIN 
     devices:
         - /dev/net/tun
-    ports: # Same as inside port in ENV.SSH_PORTS
-      - 3002:3002
+    ports:
+      - <Port_A>:<Port_A>
+      - 7777:7777
     environment: 
-      WAIT_VPN: 5
-      SSH_PORTS: "3002:3001 9999:1234" #<port inside docker>:<vpn vm port>
+      SSH_PORTS: "<Port_A>:<Port_B> <Port_An,Port_Bn> ... 7777:8888" # Local Port -> Port on VM
       SSH_ARGS: "-i vm_ssh.pem ubuntu@10.0.1.119" # No ports
+      WAIT_VPN: 5
     volumes:
       - ./vpn_config.ovpn:/vpn/config/vpn_config.ovpn # OpenVPN config
       - ./vpn_client.key:/vpn/config/vpn_client.key   # OpenVPN private key (if apply)
