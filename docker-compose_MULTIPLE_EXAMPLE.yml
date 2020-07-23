@@ -1,0 +1,60 @@
+version: '3'
+
+services: 
+    vpn1:
+        image: yonixw/ssh-vpn-docker
+        sysctls:
+            - "net.ipv6.conf.all.disable_ipv6=0"
+        cap_add:
+            - NET_ADMIN 
+        devices:
+            - /dev/net/tun
+        ports: # Same as inside port in ENV.SSH_PORTS
+          - 80:80
+        environment: 
+          WAIT_VPN: 5
+          SSH_PORTS: "80:8888" #<port inside docker>:<vpn vm port>
+          SSH_ARGS: "-i vm_ssh.pem ubuntu@10.0.1.58" # No ports
+        volumes:
+          - ./vpn-11-1.ovpn:/vpn/config/vpn_config.ovpn # OpenVPN config
+          - ./vpn_client.key:/vpn/config/vpn_client.key   # OpenVPN private key (if apply)
+          - ./vpn_client.crt:/vpn/config/vpn_client.crt   # OpenVPN private cert (if apply)
+          - ./vm_ssh_west.pem:/vpn/config/vm_ssh.pem           # SSH Private key (if in SSH_ARGS above)
+    vpn2:
+        image: yonixw/ssh-vpn-docker
+        sysctls:
+            - "net.ipv6.conf.all.disable_ipv6=0"
+        cap_add:
+            - NET_ADMIN 
+        devices:
+            - /dev/net/tun
+        ports: # Same as inside port in ENV.SSH_PORTS
+            - 3003:3003
+        environment: 
+            WAIT_VPN: 5
+            SSH_PORTS: "3003:3001 9999:1234" #<port inside docker>:<vpn vm port>
+            SSH_ARGS: "-i vm_ssh.pem ubuntu@10.0.2.11" # No ports
+        volumes:
+            - ./vpn-11-2.ovpn:/vpn/config/vpn_config.ovpn # OpenVPN config
+            - ./vpn_client.key:/vpn/config/vpn_client.key   # OpenVPN private key (if apply)
+            - ./vpn_client.crt:/vpn/config/vpn_client.crt   # OpenVPN private cert (if apply)
+            - ./vm_ssh_west.pem:/vpn/config/vm_ssh.pem           # SSH Private key (if in SSH_ARGS above)
+    vpn3:
+        image: yonixw/ssh-vpn-docker
+        sysctls:
+            - "net.ipv6.conf.all.disable_ipv6=0"
+        cap_add:
+            - NET_ADMIN 
+        devices:
+            - /dev/net/tun
+        ports: # Same as inside port in ENV.SSH_PORTS
+            - 3004:3004
+        environment: 
+            WAIT_VPN: 5
+            SSH_PORTS: "3004:3001 9999:1234" #<port inside docker>:<vpn vm port>
+            SSH_ARGS: "-i vm_ssh.pem ubuntu@10.1.1.106" # No ports
+        volumes:
+            - ./vpn-15-1.ovpn:/vpn/config/vpn_config.ovpn # OpenVPN config
+            - ./vpn_client.key:/vpn/config/vpn_client.key   # OpenVPN private key (if apply)
+            - ./vpn_client.crt:/vpn/config/vpn_client.crt   # OpenVPN private cert (if apply)
+            - ./vm_ssh_east.pem:/vpn/config/vm_ssh.pem           # SSH Private key (if in SSH_ARGS above)
