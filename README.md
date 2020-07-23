@@ -6,6 +6,8 @@ affecting a specific docker and not your entire PC (letting you to browse the in
 
 It supports tcp port forwarding.
 
+![diagram](diagram.png)
+
 ## How to run
 1. Clone this repo
 2. Configure the docker-compose.yml
